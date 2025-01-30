@@ -10,22 +10,9 @@
 		FB2F7E3B2D4BD07C00D5F980 /* Movie App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		FBDE2FD42D4BF1DA00763A11 /* Exceptions for "Movie App" folder in "Movie App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Movie-App-Info.plist",
-			);
-			target = FB2F7E3A2D4BD07C00D5F980 /* Movie App */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FB2F7E3D2D4BD07C00D5F980 /* Movie App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				FBDE2FD42D4BF1DA00763A11 /* Exceptions for "Movie App" folder in "Movie App" target */,
-			);
 			path = "Movie App";
 			sourceTree = "<group>";
 		};
