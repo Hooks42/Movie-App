@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		FBDE2FF72D4C36C300763A11 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = FBDE2FF62D4C36B900763A11 /* .gitignore */; };
+		FBDE2FF92D4C372600763A11 /* .env in Resources */ = {isa = PBXBuildFile; fileRef = FBDE2FF82D4C371E00763A11 /* .env */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FB2F7E3B2D4BD07C00D5F980 /* Movie App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDE2FF62D4C36B900763A11 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		FBDE2FF82D4C371E00763A11 /* .env */ = {isa = PBXFileReference; lastKnownFileType = text; path = .env; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -37,6 +39,7 @@
 		FB2F7E322D4BD07C00D5F980 = {
 			isa = PBXGroup;
 			children = (
+				FBDE2FF82D4C371E00763A11 /* .env */,
 				FBDE2FF62D4C36B900763A11 /* .gitignore */,
 				FB2F7E3D2D4BD07C00D5F980 /* Movie App */,
 				FB2F7E3C2D4BD07C00D5F980 /* Products */,
@@ -116,6 +119,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBDE2FF72D4C36C300763A11 /* .gitignore in Resources */,
+				FBDE2FF92D4C372600763A11 /* .env in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
