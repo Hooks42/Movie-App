@@ -74,7 +74,7 @@ class SearchBarViewModel: ObservableObject {
     }
     
     
-    func searchMovie(by title: String) {
+    func searchMovieFromApi(by title: String) {
         self.movie = nil
         self.errorMessage = nil
         
