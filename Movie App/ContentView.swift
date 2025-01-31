@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
 
+    @StateObject var mainViewModel: MainViewModel = MainViewModel()
+    
     @State private var startApp = false
     @State private var searchBarY: CGFloat = 0.06
     
@@ -21,6 +23,7 @@ struct ContentView: View {
                 if startApp {
                     SearchBarView()
                         .offset(y: geo.size.height * self.searchBarY)
+                        .environmentObject(mainViewModel)
                 }
             }
             .onTapGesture {
@@ -41,6 +44,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

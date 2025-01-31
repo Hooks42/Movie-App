@@ -23,7 +23,7 @@ class SearchBarViewModel: ObservableObject {
     @Published var searchText: String = ""
     
     // The list of infos we fetched from the API.
-    @Published var movie: Movie?
+    @Published var movies: [Movie] = []
     
     // The error message to display if the API request fails.
     @Published var errorMessage: String?
@@ -42,7 +42,7 @@ class SearchBarViewModel: ObservableObject {
     
     
     // function to fetch the movie data from the API takes a title as a parameter and returns a publisher that.
-    func fetchMovie(by title: String) -> AnyPublisher<Movie, Error> {
+    func fetchMovie(by title: String) -> AnyPublisher<MovieSearch, Error> {
         print("i'm in fetch Movie")
         do {
             // Load the API key from the environment variables.
@@ -51,7 +51,8 @@ class SearchBarViewModel: ObservableObject {
                 return Empty().eraseToAnyPublisher()
             }
             // Create the URL for the API request.
-            let urlString = "\(self.baseURL)?apikey=\(apiKey)&t=\(title)"
+            let urlString = "\(self.baseURL)?s=\(title)&apikey=\(apiKey)"
+            print(urlString)
             // Create a URL object from the string.
             let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
             // Create a publisher to fetch the data from the URL.
@@ -59,7 +60,7 @@ class SearchBarViewModel: ObservableObject {
                 // Decode the data using the Movie object.
                 .map { $0.data }
                 // decode Json and convert it to Movie object
-                .decode(type: Movie.self, decoder: JSONDecoder())
+                .decode(type: MovieSearch.self, decoder: JSONDecoder())
                 // deliver the result on the main thread because the UI needs to be updated.
                 .receive(on: DispatchQueue.main)
                 // hide how the publisher is implemented and only expose the result.
@@ -74,32 +75,33 @@ class SearchBarViewModel: ObservableObject {
     }
     
     
-    func searchMovieFromApi(by title: String) {
-        self.movie = nil
+    func searchMoviesFromApi(mainViewModel: MainViewModel) {
+        self.movies = []
         self.errorMessage = nil
         
         // Fetch the movie data from the API.
-        fetchMovie(by: title)
+        fetchMovie(by: self.searchText)
             // is used to get the status of API call
-            .sink(receiveCompletion: { [weak self] completion in
-                switch completion {
+            .sink(receiveCompletion: { [weak self] receiveCompletion in
+                switch receiveCompletion {
                 // if failure save the error
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    print("Error: \(error)")
+                    print(error)
                 case .finished:
-                    print("Finished !")
                     break
                 }
                 // get the results of API call
-            }, receiveValue: { [weak self] movie in
+            }, receiveValue: { [weak self] receivedMovies in
                 // save the result
-                self?.movie = movie
-                print("Movie: \(movie)")
+                self?.movies = receivedMovies.search
+                mainViewModel.moviesList = self?.movies ?? []
+                
             })
             // stored in cancellable to be freed from the memory later
             .store(in: &cancellables)
     }
+    
     
     deinit {
         self.cancellables.removeAll()

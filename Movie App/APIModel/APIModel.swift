@@ -9,7 +9,7 @@ import Foundation
 
 // Api model for the movie object.
 // codable is used to serialize and deserialize the data.
-struct Movie: Codable {
+struct MovieDetails: Codable {
     let title: String
     let director: String
     let plot: String
@@ -22,5 +22,23 @@ struct Movie: Codable {
         case director = "Director"
         case plot = "Plot"
         case poster = "Poster"
+    }
+}
+
+struct Movie: Codable {
+    let imdbID: String
+    let poster: String
+    
+    enum CodingKeys: String, CodingKey {
+        case imdbID = "imdbID"
+        case poster = "Poster"
+    }
+}
+
+struct MovieSearch: Codable {
+    let search: [Movie]
+    
+    enum CodingKeys: String, CodingKey {
+        case search = "Search"
     }
 }
