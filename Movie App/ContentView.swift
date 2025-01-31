@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+
     @State private var startApp = false
     @State private var searchBarY: CGFloat = 0.06
     
@@ -27,6 +27,7 @@ struct ContentView: View {
                 UIApplication.shared.endEditing(true)
             }
             .onAppear() {
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     withAnimation(.easeInOut(duration: 1.5)) {
                         self.startApp = true
