@@ -38,8 +38,8 @@ struct ContentView: View {
                     }
                 }
             }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
-        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 
