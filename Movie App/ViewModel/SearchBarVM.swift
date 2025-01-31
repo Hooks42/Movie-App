@@ -100,6 +100,10 @@ class SearchBarViewModel: ObservableObject {
             // stored in cancellable to be freed from the memory later
             .store(in: &cancellables)
     }
+    
+    deinit {
+        self.cancellables.removeAll()
+    }
 }
 
 
