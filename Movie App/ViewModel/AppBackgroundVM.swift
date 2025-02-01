@@ -19,7 +19,7 @@ class AppBackgroundViewModel: ObservableObject {
     @Published var topRightCircleY: CGFloat = -0.8
     
     // X position of the bottom left circle.
-    @Published var bottomLeftCircleX: CGFloat = -1
+    @Published var bottomLeftCircleX: CGFloat = 1
     
     // Y position of the bottom left circle.
     @Published var bottomLeftCircleY: CGFloat = 0.8
@@ -29,7 +29,7 @@ class AppBackgroundViewModel: ObservableObject {
         withAnimation(.easeInOut(duration: 3)) {
             topRightCircleX = 0.6
             topRightCircleY = -0.6
-            bottomLeftCircleX = -0.65
+            bottomLeftCircleX = 0.65
             bottomLeftCircleY = 0.6
         }
     }

@@ -110,7 +110,7 @@ class SearchBarViewModel: ObservableObject {
             self.searchMoviesFromApi(mainViewModel: mainViewModel)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1    ) {
                 guard self.errorMessage == nil else {
-                    withAnimation(.easeInOut(duration: 1)) {
+                    withAnimation(.easeInOut(duration: 0.3)) {
                         mainViewModel.displaySearchResults = true
                         mainViewModel.displaySearchResultsError = true
                     }

@@ -9,7 +9,7 @@ import Foundation
 
 // Api model for the movie object.
 // codable is used to serialize and deserialize the data.
-struct MovieDetails: Codable {
+struct MovieDetails: Codable, Equatable {
     let title: String
     let director: String
     let plot: String

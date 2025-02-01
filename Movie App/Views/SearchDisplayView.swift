@@ -26,7 +26,7 @@ struct SearchDisplayView: View {
     var body: some View {
         // Display a text if there is an error on search
         if mainViewModel.displaySearchResultsError {
-            Text("Oops... we didn't found anything")
+            Text("Oops... we didn't find anything")
                 .font(.custom("Quicksand-SemiBold", size: 20))
                 .foregroundStyle(.white)
         } else {
@@ -35,7 +35,23 @@ struct SearchDisplayView: View {
                 HStack {
                     ForEach(0..<viewModel.imageTab.count, id: \.self) { index in
                         Button(action: {
-                            print(viewModel.imageTab[index].id)
+                            mainViewModel.movieToSearch = viewModel.imageTab[index].id
+                            Task {
+                                mainViewModel.searchMovieInfosFromApi()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1 ) {
+                                    guard mainViewModel.errorMessage == nil else {
+                                        // gerer les erreur
+                                        return
+                                    }
+                                    
+                                    guard mainViewModel.movieInfos != nil else {
+                                        return
+                                    }
+                                }
+                            }
+                            withAnimation(.easeInOut(duration: 1.2)) {
+                                mainViewModel.showInfosView = true
+                            }
                         }) {
                             if viewModel.imageTab[index].picture != nil {
                                 viewModel.imageTab[index].picture!

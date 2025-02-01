@@ -8,51 +8,46 @@
 import SwiftUI
 
 struct ContentView: View {
-
+    
     @StateObject var mainViewModel: MainViewModel = MainViewModel()
-    
-    @State private var startApp = false
-    @State private var searchBarY: CGFloat = 0.06
-    
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                AppBackgroundView()
-                TitleView()
-                    .offset(y: geo.size.height * -0.25)
-                if startApp {
-                    SearchBarView()
-                        .offset(y: geo.size.height * self.searchBarY)
-                        .environmentObject(mainViewModel)
-                    if mainViewModel.displaySearchResults == true {
-                        SearchDisplayView()
-                            .environmentObject(mainViewModel)
-                            .offset(y: geo.size.height * 0.2)
+                MovieInfosView()
+                    .environmentObject(mainViewModel)
+                MainView()
+                    .environmentObject(mainViewModel)
+                    .disabled(mainViewModel.showInfosView)
+                    .cornerRadius(mainViewModel.showInfosView ? 25 : 0)
+                    .overlay(
+                        mainViewModel.showInfosView ?
+                            RoundedRectangle(cornerRadius: 25)
+                                .stroke(Color.orange, lineWidth: 5)
+                            : nil
+                    )
+                    .rotation3DEffect(.init(degrees: mainViewModel.showInfosView ? -25 : 0), axis: (x: 0, y: 1, z: 0), anchor: .trailing)
+                    .offset(x: mainViewModel.showInfosView ? getRect().width / 2 : 0)
+                    .ignoresSafeArea()
+                    .onTapGesture { location in
+                        let screenWidth = geo.size.width
+                        let thirdScreenPartStart = screenWidth * (2/3)
+                        let thirdScreenPartStop = screenWidth
+                        
+                        if location.x >= thirdScreenPartStart && location.x <= thirdScreenPartStop {
+                            withAnimation(.easeInOut(duration: 0.5)) {
+                                self.mainViewModel.showInfosView.toggle()
+                            }
+                        }
                     }
-                }
             }
-            .onTapGesture {
-                DispatchQueue.main.async {
-                    UIApplication.shared.endEditing(true)
-                }
-            }
-            .onAppear() {
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation(.easeInOut(duration: 1.5)) {
-                        self.startApp = true
-                    }
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    withAnimation(.easeInOut(duration: 1.5)) {
-                        self.searchBarY = 0
-                    }
-                }
-            }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
-        .ignoresSafeArea(.keyboard, edges: .bottom)
+    }
+}
+
+extension View {
+    func getRect() -> CGRect {
+        return UIScreen.main.bounds
     }
 }
 

@@ -29,7 +29,7 @@ struct SearchBarView: View {
                 ZStack {
                     // Display a placeholder text if the search bar is empty.
                     if viewModel.searchText.isEmpty {
-                        Text("Find your film here !")
+                        Text("Find your film here")
                             .font(.custom("Quicksand-SemiBold", size: 18))
                             .foregroundStyle(.white)
                     }
