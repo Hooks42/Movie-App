@@ -27,6 +27,7 @@ class SearchBarViewModel: ObservableObject {
     
     // The error message to display if the API request fails.
     @Published var errorMessage: String?
+
     
     // cancellables is a set of AnyCancellable objects that store the subscriptions to the publishers.
     private var cancellables = Set<AnyCancellable>()
@@ -76,8 +77,10 @@ class SearchBarViewModel: ObservableObject {
     
     
     func searchMoviesFromApi(mainViewModel: MainViewModel) {
-        self.movies = []
-        self.errorMessage = nil
+        DispatchQueue.main.async {
+            self.movies = []
+            self.errorMessage = nil
+        }
         
         // Fetch the movie data from the API.
         fetchMovie(by: self.searchText)
@@ -100,6 +103,26 @@ class SearchBarViewModel: ObservableObject {
             })
             // stored in cancellable to be freed from the memory later
             .store(in: &cancellables)
+    }
+    
+    func fetchOnSubmit(mainViewModel: MainViewModel) {
+        Task {
+            self.searchMoviesFromApi(mainViewModel: mainViewModel)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1    ) {
+                guard self.errorMessage == nil else {
+                    withAnimation(.easeInOut(duration: 1)) {
+                        mainViewModel.displaySearchResults = true
+                        mainViewModel.displaySearchResultsError = true
+                    }
+                    return
+                }
+                if !self.movies.isEmpty {
+                    mainViewModel.displaySearchResultsError = false
+                    mainViewModel.displaySearchResults = true
+                    print(mainViewModel.moviesList)
+                }
+            }
+        }
     }
     
     

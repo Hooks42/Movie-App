@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var startApp = false
     @State private var searchBarY: CGFloat = 0.06
     
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -24,10 +25,17 @@ struct ContentView: View {
                     SearchBarView()
                         .offset(y: geo.size.height * self.searchBarY)
                         .environmentObject(mainViewModel)
+                    if mainViewModel.displaySearchResults == true {
+                        SearchDisplayView()
+                            .environmentObject(mainViewModel)
+                            .offset(y: geo.size.height * 0.2)
+                    }
                 }
             }
             .onTapGesture {
-                UIApplication.shared.endEditing(true)
+                DispatchQueue.main.async {
+                    UIApplication.shared.endEditing(true)
+                }
             }
             .onAppear() {
                 

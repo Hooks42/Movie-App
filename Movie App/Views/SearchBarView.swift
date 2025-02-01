@@ -34,17 +34,17 @@ struct SearchBarView: View {
                             .foregroundStyle(.white)
                     }
                     // Display the search text field.
-                    TextField("", text: $viewModel.searchText)
+                    TextField("", text: $viewModel.searchText, onEditingChanged: { isEditing in
+                        if isEditing {
+                            mainViewModel.displaySearchResults = false
+                        }
+                        })
                         .font(.custom("Quicksand-SemiBold", size: 18))
                         .foregroundStyle(.white)
                         .frame(width: geo.size.width * viewModel.textFieldFrameX - 50, height: geo.size.height * viewModel.textFieldFrameY)
+                        // Fetch on return key presssed
                         .onSubmit {
-                            viewModel.searchMoviesFromApi(mainViewModel: mainViewModel)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                                if !viewModel.movies.isEmpty {
-                                    print(mainViewModel.moviesList)
-                                }
-                            }
+                            viewModel.fetchOnSubmit(mainViewModel: mainViewModel)
                         }
                 }
             }

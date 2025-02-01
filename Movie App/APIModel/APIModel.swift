@@ -28,8 +28,10 @@ struct MovieDetails: Codable {
 struct Movie: Codable {
     let imdbID: String
     let poster: String
+    let title: String
     
     enum CodingKeys: String, CodingKey {
+        case title = "Title"
         case imdbID = "imdbID"
         case poster = "Poster"
     }

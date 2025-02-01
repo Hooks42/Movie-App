@@ -11,4 +11,6 @@ class MainViewModel : ObservableObject {
     
     @Published var moviesList: [Movie] = []
     @Published var movieInfos: MovieDetails? = nil
+    @Published var displaySearchResults: Bool = false
+    @Published var displaySearchResultsError: Bool = false
 }
