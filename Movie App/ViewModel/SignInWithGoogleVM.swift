@@ -45,6 +45,8 @@ class AuthViewModel: ObservableObject {
                 self?.errorMessage = "Authentication error"
                 return
             }
+        
+        // MARK: - Credentials are infos that Firebase need to know if it's us or not (IDToken + AccessToken)
 
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
 
