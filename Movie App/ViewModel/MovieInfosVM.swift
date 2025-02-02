@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 class MovieInfosViewModel : ObservableObject {
     
     @Published var viewElements : MovieDetails = MovieDetails(title: "", director: "", plot: "", poster: "")
@@ -14,9 +15,7 @@ class MovieInfosViewModel : ObservableObject {
     
     func updateView (mainViewModel: MainViewModel) {
         Task {
-            print("\n\n🔥movieToSearch vient de changer --> \(mainViewModel.movieToSearch)")
             self.viewElements = mainViewModel.movieInfos ?? MovieDetails(title: "N/A", director: "N/A", plot: "N/A", poster: "N/A")
-            print("\n\n🌿view Elements vaut maintenant --> \(viewElements)")
             if viewElements.poster == "N/A" {
                 self.picture = nil
                 return

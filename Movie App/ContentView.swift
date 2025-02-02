@@ -26,7 +26,7 @@ struct ContentView: View {
                                 .stroke(Color.orange, lineWidth: 5)
                             : nil
                     )
-                    .rotation3DEffect(.init(degrees: mainViewModel.showInfosView ? -25 : 0), axis: (x: 0, y: 1, z: 0), anchor: .trailing)
+                    .rotation3DEffect(.init(degrees: mainViewModel.showInfosView ? -35 : 0), axis: (x: 0, y: 1, z: 0), anchor: .trailing)
                     .offset(x: mainViewModel.showInfosView ? getRect().width / 2 : 0)
                     .ignoresSafeArea()
                     .onTapGesture { location in
