@@ -19,7 +19,9 @@ struct MainView: View {
         GeometryReader { geo in
             ZStack {
                 AppBackgroundView()
-                TitleView()
+                Text("Movie App")
+                    .font(.custom("LeckerliOne-Regular", size: 70))
+                    .foregroundStyle(.white)
                     .offset(y: geo.size.height * -0.25)
                 if startApp {
                     SearchBarView()
