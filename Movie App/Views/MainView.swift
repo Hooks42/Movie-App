@@ -11,26 +11,29 @@ struct MainView: View {
     
     @EnvironmentObject var mainViewModel : MainViewModel
     
-    @State private var startApp = false
-    @State private var searchBarY: CGFloat = 0.06
-    
-    
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 AppBackgroundView()
-                Text("Movie App")
-                    .font(.custom("LeckerliOne-Regular", size: 70))
-                    .foregroundStyle(.white)
-                    .offset(y: geo.size.height * -0.25)
-                if startApp {
-                    SearchBarView()
-                        .offset(y: geo.size.height * self.searchBarY)
-                        .environmentObject(mainViewModel)
-                    if mainViewModel.displaySearchResults == true {
-                        SearchDisplayView()
+                    .environmentObject(mainViewModel)
+                if mainViewModel.isConnected == false {
+                    withAnimation(.easeInOut(duration: 1)) {
+                        GoogleSignInView()
                             .environmentObject(mainViewModel)
-                            .offset(y: geo.size.height * 0.2)
+                    }
+                } else {
+                    if mainViewModel.startApp {
+                        ProfileView()
+                            .offset(x: -geo.size.width * 0.36, y: -geo.size.height * 0.42)
+                            .environmentObject(mainViewModel)
+                        SearchBarView()
+                            .offset(y: geo.size.height * self.mainViewModel.searchBarY)
+                            .environmentObject(mainViewModel)
+                        if mainViewModel.displaySearchResults == true {
+                            SearchDisplayView()
+                                .environmentObject(mainViewModel)
+                                .offset(y: geo.size.height * 0.2)
+                        }
                     }
                 }
             }
@@ -40,19 +43,11 @@ struct MainView: View {
                 }
             }
             .onAppear() {
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation(.easeInOut(duration: 1.5)) {
-                        self.startApp = true
-                    }
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    withAnimation(.easeInOut(duration: 1.5)) {
-                        self.searchBarY = 0
-                    }
-                }
+                mainViewModel.logInAnimation()
             }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
+            .onChange(of: mainViewModel.isConnected) {
+                mainViewModel.logInAnimation()
+            }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }

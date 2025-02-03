@@ -7,13 +7,13 @@
 
 import FirebaseCore
 import FirebaseAuth
+import SwiftUI
 import GoogleSignIn
 
 class AuthViewModel: ObservableObject {
-    @Published var isAuthenticated = false
     @Published var errorMessage: String?
 
-    func signIn() {
+    func signIn(mainViewModel: MainViewModel) {
         
         // MARK: - Check if Firebase is Connected
         guard let clientID = FirebaseApp.app()?.options.clientID else {
@@ -56,7 +56,8 @@ class AuthViewModel: ObservableObject {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
                 } else {
-                    self?.isAuthenticated = true
+                    mainViewModel.isConnected = true
+                    mainViewModel.startApp = false
                 }
             }
         }
