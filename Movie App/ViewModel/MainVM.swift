@@ -39,7 +39,6 @@ class MainViewModel : ObservableObject {
             }
             // Create the URL for the API request.
             let urlString = "\(self.baseURL)?i=\(id)&apikey=\(apiKey)"
-            print(urlString)
             // Create a URL object from the string.
             let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
             // Create a publisher to fetch the data from the URL.
@@ -75,7 +74,6 @@ class MainViewModel : ObservableObject {
                 // if failure save the error
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    print(error)
                 case .finished:
                     break
                 }
@@ -83,7 +81,6 @@ class MainViewModel : ObservableObject {
             }, receiveValue: { [weak self] receivedMovies in
                 // save the result
                 self?.movieInfos = receivedMovies
-                print(self?.movieInfos ?? [])
             })
             // stored in cancellable to be freed from the memory later
             .store(in: &cancellables)

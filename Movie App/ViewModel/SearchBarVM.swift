@@ -44,7 +44,6 @@ class SearchBarViewModel: ObservableObject {
     
     // function to fetch the movie data from the API takes a title as a parameter and returns a publisher that.
     func fetchMovie(by title: String) -> AnyPublisher<MovieSearch, Error> {
-        print("i'm in fetch Movie")
         do {
             // Load the API key from the environment variables.
             let apiKey = try EnvLoader().load()["API_KEY"] ?? ""
@@ -53,7 +52,6 @@ class SearchBarViewModel: ObservableObject {
             }
             // Create the URL for the API request.
             let urlString = "\(self.baseURL)?s=\(title)&apikey=\(apiKey)"
-            print(urlString)
             // Create a URL object from the string.
             let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
             // Create a publisher to fetch the data from the URL.
@@ -90,7 +88,6 @@ class SearchBarViewModel: ObservableObject {
                 // if failure save the error
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    print(error)
                 case .finished:
                     break
                 }
@@ -119,7 +116,6 @@ class SearchBarViewModel: ObservableObject {
                 if !self.movies.isEmpty {
                     mainViewModel.displaySearchResultsError = false
                     mainViewModel.displaySearchResults = true
-                    print(mainViewModel.moviesList)
                 }
             }
         }
