@@ -31,6 +31,11 @@
 			path = "Movie App";
 			sourceTree = "<group>";
 		};
+		FBA0FD7A2D506A7F00B21292 /* ProjectImage */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ProjectImage;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +58,7 @@
 		FB2F7E322D4BD07C00D5F980 = {
 			isa = PBXGroup;
 			children = (
+				FBA0FD7A2D506A7F00B21292 /* ProjectImage */,
 				FBA0FD782D505B2900B21292 /* ReadMe.md */,
 				FBDE2FF82D4C371E00763A11 /* .env */,
 				FBDE2FF62D4C36B900763A11 /* .gitignore */,
@@ -86,6 +92,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				FB2F7E3D2D4BD07C00D5F980 /* Movie App */,
+				FBA0FD7A2D506A7F00B21292 /* ProjectImage */,
 			);
 			name = "Movie App";
 			packageProductDependencies = (

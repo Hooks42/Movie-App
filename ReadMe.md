@@ -2,6 +2,8 @@
 
 Movie App is an iOS application built with SwiftUI that allows users to search for movies via the OMDb API and view detailed movie information. The app uses the MVVM architectural pattern for a clear separation of concerns and integrates Firebase for user authentication.
 
+This project was a technical test
+
 ## Table of Contents
 - [Features](#features)
 - [Technical Stack](#technical-stack)
@@ -11,6 +13,12 @@ Movie App is an iOS application built with SwiftUI that allows users to search f
 - [Build and Run](#build-and-run)
 - [Technical Decisions](#technical-decisions)
 - [Future Enhancements](#future-enhancements)
+- [App Preview](#app-preview)
+- [About the Project](#about-the-project)
+- [What I Learned](#what-i-learned)
+- [Why I Loved Working on This Project](#why-i-loved-working-on-this-project)
+- [Personal Reflection](#personal-reflection)
+
 
 ## Features
 
@@ -195,3 +203,36 @@ class AuthViewModel: ObservableObject {
 - Implement offline caching using SwiftData
 - Add movie trailer previews via YouTube API
 
+## App Preview
+
+### App Startup
+![App Startup](./ProjectImage/Startup.gif)
+
+### Search Bar and Details view
+![Search Bar and Details view](./ProjectImage/Search.gif)
+
+### Logout
+![Logout](./ProjectImage/Logout.gif)
+
+
+## About the Project
+
+This project was initially developed as part of a technical interview challenge, but it quickly became a passion project for me. From scratch, I had the opportunity to dive deep into SwiftUI, explore best practices, and refine my skills in iOS development.
+
+## What I Learned
+
+- **MVVM Architecture:** I gained a deeper understanding of the Model-View-ViewModel pattern, learning how to separate concerns effectively and manage state in a clean and scalable way.  
+- **API Integration:** Working with the OMDb API taught me how to handle network requests, parse JSON data, and manage asynchronous operations using Combine.  
+- **Firebase Authentication:** I implemented user authentication with Firebase, including Google Sign-In, which was a great introduction to integrating third-party services.  
+- **UI/UX Design:** I focused on creating a smooth and intuitive user experience, incorporating animations and responsive design principles.  
+- **Problem-Solving:** Debugging and optimizing the app helped me improve my problem-solving skills and attention to detail.  
+
+## Why I Loved Working on This Project
+
+- **From Scratch:** Building everything from the ground up was incredibly rewarding. It allowed me to take full ownership of the codebase and make architectural decisions that aligned with best practices.  
+- **Learning Curve:** Every step of the way, I encountered new challenges that pushed me to learn and grow as a developer.  
+- **Real-World Application:** This project mimics real-world scenarios, from API integration to user authentication, making it a valuable addition to my portfolio.  
+
+## Personal Reflection
+
+This project was more than just a test—it was a journey of growth and discovery. I'm proud of what I've accomplished and excited to continue building on this foundation in future projects.
