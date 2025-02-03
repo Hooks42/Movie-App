@@ -83,7 +83,6 @@ git clone https://github.com/Hooks42/Movie-App.git
             }
             // Create the URL for the API request.
             let urlString = "\(self.baseURL)?i=\(id)&apikey=\(apiKey)"
-            print(urlString)
             // Create a URL object from the string.
             let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
             // Create a publisher to fetch the data from the URL.
