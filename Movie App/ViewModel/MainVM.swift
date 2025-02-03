@@ -18,6 +18,13 @@ class MainViewModel : ObservableObject {
     @Published var movieToSearch: String = ""
     @Published var showInfosView : Bool = false
     
+    @Published var startApp = false
+    @Published var searchBarY: CGFloat = 0.06
+
+    
+    
+    @Published var isConnected : Bool = false
+    
     private var cancellables = Set<AnyCancellable>()
     
     private let baseURL: String = "https://www.omdbapi.com/"
@@ -80,5 +87,20 @@ class MainViewModel : ObservableObject {
             })
             // stored in cancellable to be freed from the memory later
             .store(in: &cancellables)
+    }
+    
+    func logInAnimation() {
+        if self.isConnected {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                withAnimation(.easeInOut(duration: 1.5)) {
+                    self.startApp = true
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                withAnimation(.easeInOut(duration: 1.5)) {
+                    self.searchBarY = 0
+                }
+            }
+        }
     }
 }

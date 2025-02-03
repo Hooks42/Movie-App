@@ -9,6 +9,7 @@ import SwiftUI
 
 // ViewModel for managing the state and logic of the AppBackgroundView.
 class AppBackgroundViewModel: ObservableObject {
+    
     // Indicates whether the circles should be displayed.
     @Published var displayCircles = false
     

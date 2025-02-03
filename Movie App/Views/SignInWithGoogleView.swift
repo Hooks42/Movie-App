@@ -10,60 +10,25 @@ import FirebaseAuth
 
 struct GoogleSignInView: View {
     @StateObject private var authVM = AuthViewModel()
+    
+    @EnvironmentObject private var mainViewModel : MainViewModel
 
     var body: some View {
         VStack {
-            if authVM.isAuthenticated {
-                Text("Connecté avec succès !")
-                    .font(.title)
-                Button(action: {
-                    do {
-                        try Auth.auth().signOut()
-                        authVM.isAuthenticated = false
-                    } catch {
-                        print(("tropnul"))
-                    }
-                }) {
-                    Text("Deco toi !")
-                }
-            } else {
-                Button(action: {
-                    authVM.signIn()
-                }) {
-                    HStack {
-                        Image(systemName: "g.circle.fill")
-                            .font(.title)
-                        Text("Continuer avec Google")
-                            .fontWeight(.semibold)
-                    }
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white)
-                            .shadow(radius: 2)
-                    )
-                }
-                .padding()
-
-                if let error = authVM.errorMessage {
-                    Text(error)
-                        .foregroundColor(.red)
-                }
-            }
-        }
-        .padding()
-        .onAppear() {
-            if Auth.auth().currentUser != nil {
-                authVM.isAuthenticated = true
-            } else {
-                authVM.isAuthenticated = false
+            Button(action: {
+                authVM.signIn(mainViewModel: mainViewModel)
+            }) {
+                Image("SignInWithGoogleIMG")
+                    .resizable()
+                    .frame(width: 200, height: 50)
             }
         }
     }
 }
 
 #Preview {
-    GoogleSignInView()
+    ZStack {
+        AppBackgroundView()
+        GoogleSignInView()
+    }
 }
