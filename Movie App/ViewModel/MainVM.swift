@@ -8,51 +8,43 @@
 import SwiftUI
 import Combine
 
-class MainViewModel : ObservableObject {
+// MARK: - MainViewModel
+class MainViewModel: ObservableObject {
     
-    @Published var moviesList: [Movie] = []
-    @Published var movieInfos: MovieDetails?
-    @Published var errorMessage: String?
-    @Published var displaySearchResults: Bool = false
-    @Published var displaySearchResultsError: Bool = false
-    @Published var movieToSearch: String = ""
-    @Published var showInfosView : Bool = false
+    @Published var moviesList: [Movie] = []               // List of movies
+    @Published var movieInfos: MovieDetails?               // Details of a selected movie
+    @Published var errorMessage: String?                    // Error message for API calls
+    @Published var displaySearchResults: Bool = false       // Controls search results display
+    @Published var displaySearchResultsError: Bool = false  // Controls search results error display
+    @Published var movieToSearch: String = ""               // Movie title to search
+    @Published var showInfosView: Bool = false              // Controls info view display
     
-    @Published var startApp = false
-    @Published var searchBarY: CGFloat = 0.06
-
+    @Published var startApp = false                         // Indicates if the app has started
+    @Published var searchBarY: CGFloat = 0.06               // Y position of the search bar
     
+    @Published var isConnected: Bool = false                 // Connection status
     
-    @Published var isConnected : Bool = false
+    private var cancellables = Set<AnyCancellable>()        // Store cancellables for Combine
+    private let baseURL: String = "https://www.omdbapi.com/" // Base URL for API requests
     
-    private var cancellables = Set<AnyCancellable>()
-    
-    private let baseURL: String = "https://www.omdbapi.com/"
-    
-    // function to fetch the movie data from the API takes a title as a parameter and returns a publisher that.
+    // Fetch movie details from the API using the movie ID.
     func fetchMovieInfos(by id: String) -> AnyPublisher<MovieDetails, Error> {
         do {
             // Load the API key from the environment variables.
             let apiKey = try EnvLoader().load()["API_KEY"] ?? ""
-            if apiKey == "" {
+            if apiKey.isEmpty {
                 return Empty().eraseToAnyPublisher()
             }
-            // Create the URL for the API request.
+            // Create the API request URL.
             let urlString = "\(self.baseURL)?i=\(id)&apikey=\(apiKey)"
-            // Create a URL object from the string.
             let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
             // Create a publisher to fetch the data from the URL.
             return URLSession.shared.dataTaskPublisher(for: url)
-                // Decode the data using the Movie object.
-                .map { $0.data }
-                // decode Json and convert it to Movie object
-                .decode(type: MovieDetails.self, decoder: JSONDecoder())
-                // deliver the result on the main thread because the UI needs to be updated.
-                .receive(on: DispatchQueue.main)
-                // hide how the publisher is implemented and only expose the result.
-                .eraseToAnyPublisher()
-        }
-        catch {
+                .map { $0.data } // Extract the data from the response
+                .decode(type: MovieDetails.self, decoder: JSONDecoder()) // Decode JSON to MovieDetails
+                .receive(on: DispatchQueue.main) // Update UI on the main thread
+                .eraseToAnyPublisher() // Hide publisher implementation details
+        } catch {
             print("Error loading API key: \(error)")
         }
         
@@ -60,6 +52,7 @@ class MainViewModel : ObservableObject {
         return Empty().eraseToAnyPublisher()
     }
     
+    // Search for movie information from the API.
     func searchMovieInfosFromApi() {
         DispatchQueue.main.async {
             self.movieInfos = nil
@@ -68,24 +61,22 @@ class MainViewModel : ObservableObject {
         
         // Fetch the movie data from the API.
         fetchMovieInfos(by: self.movieToSearch)
-            // is used to get the status of API call
             .sink(receiveCompletion: { [weak self] receiveCompletion in
                 switch receiveCompletion {
-                // if failure save the error
-                case .failure(let error):
+                case .failure(let error): // Handle error
                     self?.errorMessage = error.localizedDescription
                 case .finished:
                     break
                 }
-                // get the results of API call
             }, receiveValue: { [weak self] receivedMovies in
-                // save the result
+                // Save the result
                 self?.movieInfos = receivedMovies
             })
-            // stored in cancellable to be freed from the memory later
+            // Store cancellable to free memory later
             .store(in: &cancellables)
     }
     
+    // Handle login animation.
     func logInAnimation() {
         if self.isConnected {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
