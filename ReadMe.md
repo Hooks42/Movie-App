@@ -96,7 +96,7 @@ git clone https://github.com/Hooks42/Movie-App.git
         // Return an empty publisher if there was an error.
         return Empty().eraseToAnyPublisher()
     }
-    ```
+```
     
 ## Authentification
 
